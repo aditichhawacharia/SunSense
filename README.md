@@ -2,7 +2,7 @@
 
 **Helping kids stay sun-safe in a warming world**
 
-SunSense is an entertaining, interactive web project designed to help children learn the value of UV protection, particularly as climate change worsens the damage that the sun does to our skin. This project was created for the TechPals Code for Change Hackathon 2025 (Environmental Pioneer Track), \
+SunSense is an entertaining, interactive web project designed to help children learn the value of UV protection, particularly as climate change worsens the damage that the sun does to our skin. This project was created for the TechPals Code for Change Hackathon 2025 (Environmental Pioneer Track).
 
 ---
 
