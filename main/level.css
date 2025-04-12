@@ -1,5 +1,4 @@
 body {
-    background-color: #f0f8ff;
     font-family: Arial, sans-serif;
     color: white; /* Set text color to white */
     text-align: center; /* Center the text */
@@ -78,3 +77,4 @@ body {
   .cloud {
     position: absolute;
   }
+  
