@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UV Education - Level 3</title>
+  <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="level.css">
+
+</head>
+<body>
+    <div class="sun"></div>
+
+    <div class="beach-items">
+        <div class="umbrella"></div>
+        <div class="beach-ball"></div>
+    </div>
+
+    <h1 id="title"></h1>
+
+    <div class="section">
+        <img id="image" style="border: 1rem solid white;" src="" alt="UV Image">
+        <h2 id="header"></h2>
+      <p id="paragraph"></p>
+    </div>
+    
+    <button onclick="nextSection()">Next</button>
+
+    <!-- Level Complete Message, initially hidden -->
+    <div id="levelComplete" class="levelComplete" style="display: none;">
+      <h1>🎉 Level Complete!</h1>
+      <p>You now know what UV rays are. Let’s go protect that skin!</p>
+      <button onclick="window.location.href='level_4.html'">Level 4</button>
+    </div>
+
+  <script>
+     const level3Content = [
+      {
+        title: "Level 3: How to Protect Yourself from UV Rays",
+        image: "assets/level3_img1.jpeg", 
+        header: "Wear Sunscreen! 🧴",
+        paragraph: "Sunscreen helps protect your skin from UV rays. Always apply it before going out in the sun, especially on your face and arms!"
+      },
+      {
+        title: "Level 3: Use Protective Clothing",
+        image: "assets/level3_img2.jpeg", 
+        header: "Wear a Hat and Sunglasses!",
+        paragraph: "A wide-brimmed hat and sunglasses protect your eyes and face from UV damage. Make sure they’re UV-protective!"
+      },
+      {
+        title: "Level 3: Seek Shade",
+        image: "assets/level3_img3.jpeg", 
+        header: "Stay in the Shade when Possible",
+        paragraph: "When the sun is strongest, usually between 10 AM and 4 PM, try to stay in the shade to reduce UV exposure."
+      }
+    ];
+    let currentIndex = 0;
+
+    function displayContent(index) {
+      document.getElementById("title").innerText = level3Content[index].title;
+      document.getElementById("image").src = level3Content[index].image;
+      document.getElementById("header").innerText = level3Content[index].header;
+      document.getElementById("paragraph").innerText = level3Content[index].paragraph;
+    }
+
+    function nextSection() {
+      currentIndex++;
+      if (currentIndex < level3Content.length) {
+        displayContent(currentIndex);
+      } else {
+        // Show Level Complete message directly
+        document.getElementById("levelComplete").style.display = "block";
+      }
+    }
+
+    window.onload = () => {
+      displayContent(currentIndex);
+    };
+  </script>
+</body>
+</html>

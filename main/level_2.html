@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UV Education - Level 2</title>
+  <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="level.css">
+</head>
+<body>
+    <div class="sun"></div>
+    
+    <div class="beach-items">
+        <div class="umbrella"></div>
+        <div class="beach-ball"></div>
+    </div>
+
+    <h1 id="title"></h1>
+
+    <div class="section">
+        <img id="image" style="border: 1rem solid white;" src="" alt="UV Image">
+        <h2 id="header"></h2>
+      <p id="paragraph"></p>
+    </div>
+    
+    <button onclick="nextSection()">Next</button>
+
+    <!-- Level Complete Message, initially hidden -->
+    <div id="levelComplete" class="levelComplete" style="display: none;">
+      <h1>🎉 Level Complete!</h1>
+      <p>You now know what UV rays are. Let’s go protect that skin!</p>
+      <button onclick="window.location.href='level_3.html'">Level 3</button>
+    </div>
+
+  <script>
+    const level2Content = [
+      {
+        title: "Level 2: Why UV Protection is Important",
+        image: "assets/level2_img1.jpeg", 
+        header: "UV Rays Can Harm Your Skin! 😞",
+        paragraph: "If you're out in the sun without protection, UV rays can hurt your skin and cause sunburns, premature aging, or even skin cancer."
+      },
+      {
+        title: "Level 2: How UV Rays Affect You",
+        image: "assets/level2_img2.jpeg", 
+        header: "UV Rays Damage Your Skin Cells",
+        paragraph: "When UV rays reach your skin, they can harm the cells, leading to burns and increasing the risk of skin issues over time."
+      },
+      {
+        title: "Level 2: Skin Cancer Risk",
+        image: "assets/level2_img3.jpeg", 
+        header: "UV Exposure Can Cause Skin Cancer",
+        paragraph: "Prolonged exposure to UV rays can increase the risk of skin cancer. That’s why protection is super important!"
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function displayContent(index) {
+      document.getElementById("title").innerText = level2Content[index].title;
+      document.getElementById("image").src = level2Content[index].image;
+      document.getElementById("header").innerText = level2Content[index].header;
+      document.getElementById("paragraph").innerText = level2Content[index].paragraph;
+    }
+
+    function nextSection() {
+      currentIndex++;
+      if (currentIndex < level2Content.length) {
+        displayContent(currentIndex);
+      } else {
+        // Show Level Complete message directly
+        document.getElementById("levelComplete").style.display = "block";
+      }
+    }
+
+    window.onload = () => {
+      displayContent(currentIndex);
+    };
+  </script>
+</body>
+</html>
