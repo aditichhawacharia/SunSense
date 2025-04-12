@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunSense - Personalized Sunscreen Recommendations</title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="checklist.css">
+    <link rel="stylesheet" href="../index.css">
+
+</head>
+<body>
+    <header>
+        <div class="logo"><span class="logo-icon">☀️</span> SunSense - Personalized Sunscreen Recommender </div>
+        <div class="subtitle">Find your perfect sunscreen match ~ Learn about importance of UV Protection ~ Find your perfect vacation checklist ~ Sunscreen calculator</div>
+    </header>
+
+    <div class="container">
+        <div class="quiz-container" id="quiz">
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+
+            <div class="question" id="q1">
+                <h2>What's your skin type?</h2>
+                <label>
+                    <input type="radio" name="skinType" value="fair"> Fair - Burns easily, rarely tans
+                </label>
+                <label>
+                    <input type="radio" name="skinType" value="light"> Light - Burns easily, tans minimally
+                </label>
+                <label>
+                    <input type="radio" name="skinType" value="medium"> Medium - Burns moderately, tans gradually
+                </label>
+                <label>
+                    <input type="radio" name="skinType" value="olive"> Olive - Burns minimally, tans easily
+                </label>
+                <label>
+                    <input type="radio" name="skinType" value="dark"> Dark - Rarely burns, tans deeply
+                </label>
+                <button onclick="nextQuestion(1, 2)">Next</button>
+            </div>
+
+            <div class="question hidden" id="q2">
+                <h2>Do you have any skin concerns?</h2>
+                <label>
+                    <input type="checkbox" name="skinConcerns" value="sensitive"> Sensitive skin
+                </label>
+                <label>
+                    <input type="checkbox" name="skinConcerns" value="acne"> Acne-prone
+                </label>
+                <label>
+                    <input type="checkbox" name="skinConcerns" value="rosacea"> Rosacea
+                </label>
+                <label>
+                    <input type="checkbox" name="skinConcerns" value="eczema"> Eczema
+                </label>
+                <label>
+                    <input type="checkbox" name="skinConcerns" value="none"> None of the above
+                </label>
+                <button onclick="nextQuestion(2, 3)">Next</button>
+            </div>
+
+            <div class="question hidden" id="q3">
+                <h2>What will you be doing while wearing sunscreen?</h2>
+                <label>
+                    <input type="radio" name="activity" value="daily"> Daily activities / light outdoor exposure
+                </label>
+                <label>
+                    <input type="radio" name="activity" value="sports"> Sports / Heavy exercise
+                </label>
+                <label>
+                    <input type="radio" name="activity" value="swimming"> Swimming / Water activities
+                </label>
+                <label>
+                    <input type="radio" name="activity" value="beach"> Beach / All-day sun exposure
+                </label>
+                <label>
+                    <input type="radio" name="activity" value="hiking"> Hiking / High altitude activities
+                </label>
+                <button onclick="nextQuestion(3, 4)">Next</button>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question hidden" id="q4">
+                <h2>What type of sunscreen do you prefer?</h2>
+                <label>
+                    <input type="radio" name="preference" value="chemical"> Chemical sunscreen (absorbs into skin, invisible)
+                </label>
+                <label>
+                    <input type="radio" name="preference" value="mineral"> Mineral/Physical sunscreen (sits on skin, may leave white cast)
+                </label>
+                <label>
+                    <input type="radio" name="preference" value="either"> No preference
+                </label>
+                <button onclick="nextQuestion(4, 5)">Next</button>
+            </div>
+            <div class="question hidden" id="q5">
+                <h2>Any additional preferences?</h2>
+                <label>
+                    <input type="checkbox" name="additional" value="reef"> Reef-safe formula
+                </label>
+                <label>
+                    <input type="checkbox" name="additional" value="fragrance"> Fragrance-free
+                </label>
+                <label>
+                    <input type="checkbox" name="additional" value="waterproof"> Waterproof/Water-resistant
+                </label>
+                <label>
+                    <input type="checkbox" name="additional" value="lightweight"> Lightweight/Non-greasy feel
+                </label>
+                <label>
+                    <input type="checkbox" name="additional" value="tinted"> Tinted formula
+                </label>
+                <button onclick="showResults()">See My Recommendations</button>
+            </div>
+        </div>
+
+        <div class="results-container hidden" id="results">
+            <h2>Your Personalized Sunscreen Recommendations</h2>
+            <p>Based on your skin type, concerns, and activities, we've found these sunscreens that would work well for you:</p>
+            
+            <div id="recommendations">
+                <!-- Results will be generated here by JavaScript -->
+            </div>
+
+            <div class="why-this-works">
+                <h3>Why These Recommendations Work For You</h3>
+                <p id="explanation"></p>
+            </div>
+
+            <button class="reset-btn" onclick="resetQuiz()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        let userSelections = {
+            skinType: '',
+            skinConcerns: [],
+            activity: '',
+            preference: '',
+            additional: []
+        };
+
+        function updateProgress(questionNumber) {
+            const totalQuestions = 5;
+            const progress = (questionNumber / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function nextQuestion(current, next) {
+            if (current === 1) {
+                const skinType = document.querySelector('input[name="skinType"]:checked');
+                if (!skinType) {
+                    alert('Please select your skin type');
+                    return;
+                }
+                userSelections.skinType = skinType.value;
+            } 
+            else if (current === 2) {
+                const concerns = document.querySelectorAll('input[name="skinConcerns"]:checked');
+                if (concerns.length === 0) {
+                    alert('Please select at least one option');
+                    return;
+                }
+                userSelections.skinConcerns = Array.from(concerns).map(item => item.value);
+            }
+            else if (current === 3) {
+                const activity = document.querySelector('input[name="activity"]:checked');
+                if (!activity) {
+                    alert('Please select an activity');
+                    return;
+                }
+                userSelections.activity = activity.value;
+            }
+            else if (current === 4) {
+                const preference = document.querySelector('input[name="preference"]:checked');
+                if (!preference) {
+                    alert('Please select a preference');
+                    return;
+                }
+                userSelections.preference = preference.value;
+            }
+
+            document.getElementById('q' + current).classList.add('hidden');
+            document.getElementById('q' + next).classList.remove('hidden');
+            
+            updateProgress(next);
+        }
+
+        function generateRecommendations() {
+            const products = [
+                {
+                    name: "UltraShield SPF 50+",
+                    description: "Broad-spectrum protection with a lightweight formula suitable for sensitive skin",
+                    spf: 50,
+                    type: "chemical",
+                    waterproof: true,
+                    sensitive: true,
+                    activity: ["daily", "sports"],
+                    features: ["Oil-free", "Non-comedogenic", "Broad-spectrum"]
+                },
+                {
+                    name: "NaturalBlock Mineral SPF 30",
+                    description: "Zinc oxide formula that provides gentle protection for sensitive and acne-prone skin",
+                    spf: 30,
+                    type: "mineral",
+                    waterproof: false,
+                    sensitive: true,
+                    reefSafe: true,
+                    activity: ["daily"],
+                    features: ["Reef-safe", "Fragrance-free", "Broad-spectrum"]
+                },
+                {
+                    name: "AquaDefense SPF 50",
+                    description: "Water-resistant formula that stays on during intense water activities",
+                    spf: 50,
+                    type: "chemical",
+                    waterproof: true,
+                    activity: ["swimming", "beach"],
+                    features: ["80-min water resistance", "Sweat-resistant", "Broad-spectrum"]
+                },
+                {
+                    name: "SensitiveDerm SPF 40",
+                    description: "Specially formulated for eczema, rosacea, and extremely sensitive skin",
+                    spf: 40,
+                    type: "mineral",
+                    fragrance: false,
+                    sensitive: true,
+                    activity: ["daily"],
+                    features: ["Dermatologist-tested", "Fragrance-free", "Broad-spectrum"]
+                },
+                {
+                    name: "SportShield SPF 70",
+                    description: "High-protection formula that stays put during intense exercise",
+                    spf: 70,
+                    type: "chemical",
+                    waterproof: true,
+                    activity: ["sports", "hiking"],
+                    features: ["Sweat-resistant", "Non-stinging", "Broad-spectrum"]
+                },
+                {
+                    name: "EcoGuard Tinted SPF 30",
+                    description: "Reef-safe tinted mineral sunscreen with natural ingredients",
+                    spf: 30,
+                    type: "mineral",
+                    tinted: true,
+                    reefSafe: true,
+                    activity: ["beach", "daily"],
+                    features: ["Reef-safe", "Tinted", "Broad-spectrum"]
+                },
+                {
+                    name: "AlpineShield SPF 50+",
+                    description: "High-altitude protection with added antioxidants",
+                    spf: 50,
+                    type: "either",
+                    activity: ["hiking"],
+                    features: ["Antioxidant-rich", "Broad-spectrum", "Lightweight"]
+                }
+            ];
+
+            let matches = products.filter(product => {
+                const activityMatch = product.activity.includes(userSelections.activity);
+                const typeMatch = userSelections.preference === 'either' || product.type === userSelections.preference;
+                return activityMatch && typeMatch;
+            });
+
+            // Sort by best match
+            matches = matches.map(product => {
+                let score = 0;
+                if (userSelections.skinConcerns.includes('sensitive') && product.sensitive) score += 2;
+                if (userSelections.skinConcerns.includes('acne') && product.features.includes('Non-comedogenic')) score += 2;
+                
+                if (userSelections.additional.includes('reef') && product.reefSafe) score += 1;
+                if (userSelections.additional.includes('fragrance') && product.features.includes('Fragrance-free')) score += 1;
+                if (userSelections.additional.includes('waterproof') && product.waterproof) score += 1;
+                if (userSelections.additional.includes('tinted') && product.tinted) score += 1;
+                
+                if (userSelections.skinType === 'fair' && product.spf >= 50) score += 2;
+                if ((userSelections.activity === 'beach' || userSelections.activity === 'hiking') && product.spf >= 50) score += 2;
+                
+                return {
+                    ...product,
+                    score: score,
+                    matchPercent: Math.min(100, 65 + score * 5)
+                };
+            }).sort((a, b) => b.matchPercent - a.matchPercent);
+
+            return matches.slice(0, 3); 
+        }
+
+        function showResults() {
+            const additional = document.querySelectorAll('input[name="additional"]:checked');
+            userSelections.additional = Array.from(additional).map(item => item.value);
+            const recommendations = generateRecommendations();
+            const recommendationsContainer = document.getElementById('recommendations');
+            recommendationsContainer.innerHTML = '';
+            
+            recommendations.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">Product Image<br>Placeholder</div>
+                    <div class="product-details">
+                        <div class="product-name">${product.name} <span class="match-percent">${product.matchPercent}% Match</span></div>
+                        <div class="product-desc">${product.description}</div>
+                        <div class="product-features">
+                            ${product.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                recommendationsContainer.appendChild(productCard);
+            });
+            
+            let explanation = `Based on your ${userSelections.skinType} skin type and ${userSelections.activity} activities, `;
+            
+            if (userSelections.skinConcerns.includes('sensitive')) {
+                explanation += "we prioritized gentle formulas suitable for sensitive skin. ";
+            }
+            
+            if (userSelections.preference !== 'either') {
+                explanation += `We focused on ${userSelections.preference} sunscreens as per your preference. `;
+            }
+            
+            if (userSelections.activity === 'swimming' || userSelections.activity === 'sports') {
+                explanation += "We recommended water and sweat-resistant options that won't easily wash off. ";
+            }
+            
+            if (userSelections.skinType === 'fair' || userSelections.skinType === 'light') {
+                explanation += "Given your fair skin tone, we prioritized higher SPF options for better protection. ";
+            }
+            
+            document.getElementById('explanation').textContent = explanation;
+            
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+        }
+
+        function resetQuiz() {
+            // Reset user selections
+            userSelections = {
+                skinType: '',
+                skinConcerns: [],
+                activity: '',
+                preference: '',
+                additional: []
+            };
+            
+            // Reset form inputs
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.checked = false;
+            });
+            
+            // Show first question, hide results
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            document.querySelectorAll('.question').forEach(q => q.classList.add('hidden'));
+            document.getElementById('q1').classList.remove('hidden');
+            
+            // Reset progress bar
+            updateProgress(1);
+        }
+
+        // Initialize
+        updateProgress(1);
+    </script>
+</body>
+</html>

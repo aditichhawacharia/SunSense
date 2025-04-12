@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunSense - Vacation Checklist Tools </title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="checklist.css">
+    <link rel="stylesheet" href="../index.css">
+
+<style>
+        .question-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><span class="logo-icon">☀️</span> SunSense - Vacation Checklist Generator </div>
+        <div class="subtitle">Find your perfect sunscreen match ~ Learn about importance of UV Protection ~ Find your perfect vacation checklist ~ Sunscreen calculator</div>
+    </header>
+    <h2> Click on your vacation type to generate the best things needed for a safe, fun trip!</h2>
+    <div class="container">
+        <div class="quiz-container">
+            <!-- Question 1: Vacation Type -->
+            <div class="question" id="q1">
+                <h1> What type of trip is this? </h1>
+                <label>
+                    <input type="radio" name="vacation" value="hiking"> Hiking
+                </label>
+                <label>
+                    <input type="radio" name="vacation" value="biking"> Biking
+                </label>
+                <label>
+                    <input type="radio" name="vacation" value="beachday"> Beach Day
+                </label>
+                <label>
+                    <input type="radio" name="vacation" value="camping"> Camping
+                </label>
+                <button onclick="nextQuestion(1,2)">Next</button>
+            </div>
+
+            <!-- Question 2: Season -->
+            <div class="question-hidden" id="q2">
+                <h1> What season? </h1>
+                <label>
+                    <input type="radio" name="season" value="summer"> Summer
+                </label>
+                <label>
+                    <input type="radio" name="season" value="spring"> Spring
+                </label>
+                <label>
+                    <input type="radio" name="season" value="autumn"> Autumn
+                </label>
+                <label>
+                    <input type="radio" name="season" value="winter"> Winter
+                </label>
+                <button onclick="showResults()">See My Recommendations</button>
+            </div>
+
+        </div>
+        <div class="results-container hidden" id="results">
+            <h2>Your Personalized Summer Vacation Checklist </h2>
+            <p>Based on your vacation and current weather, we've made this checklist to help you plan:</p>
+            
+            <div id="recommendations">
+                <!-- Results will be generated here by JavaScript -->
+            </div>
+            <button class="reset-btn" onclick="resetQuiz()">Start Over</button>
+        </div>
+    </div>
+</body>
+<script>
+    let userSelections = {
+        vacation: '',
+        season: '',
+    };
+
+    function nextQuestion(current, next) {
+        if (current === 1) {
+            const vacation = document.querySelector('input[name="vacation"]:checked');
+            if (!vacation) {
+                alert("Please select your planned vacation");
+                return;
+            }
+            userSelections.vacation = vacation.value;
+        } else if (current === 2) {
+            const season = document.querySelector('input[name="season"]:checked');
+            if (!season) {
+                alert("Please select the season");
+                return;
+            }
+            userSelections.season = season.value;
+        }
+
+        document.getElementById('q' + current).classList.add('question-hidden');
+        document.getElementById('q' + next).classList.remove('question-hidden');
+    }
+
+    function showResults() {
+        const season = document.querySelector('input[name="season"]:checked');
+        if (!season) {
+            alert("Please select the season");
+            return;
+        }
+        userSelections.season = season.value;
+
+        document.getElementById('q2').classList.add('question-hidden');
+        document.getElementById('results').classList.remove('hidden');
+
+        const checklist = generateChecklist(userSelections.vacation, userSelections.season);
+        document.getElementById('recommendations').innerHTML = checklist;
+    }
+
+    function resetQuiz() {
+        userSelections = { vacation: '', season: '' };
+
+        document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+        document.getElementById('q1').classList.remove('question-hidden');
+        document.getElementById('q2').classList.add('question-hidden');
+        document.getElementById('results').classList.add('hidden');
+    }
+
+    function generateChecklist(vacation, season) {
+        const generalChecklist = `
+            <h3>✅ General Essentials:</h3>
+            <ul>
+                <li>Comfortable clothing</li>
+                <li>Sunscreen (SPF 30+)</li>
+                <li>Water bottle</li>
+                <li>Snacks</li>
+                <li>First aid kit</li>
+                <li>Charged phone / Power bank</li>
+                <li>Hat and Sunglasses</li>
+                <li>Emergency contact info</li>
+            </ul>
+        `;
+
+        const vacationLists = {
+            hiking: `
+                <h3>🥾 Hiking Checklist:</h3>
+                <ul>
+                    <li>Sturdy boots</li>
+                    <li>Trail map / GPS</li>
+                    <li>Trekking poles</li>
+                    <li>Bug spray</li>
+                    <li>Layered clothing</li>
+                </ul>
+            `,
+            biking: `
+                <h3>🚴 Biking Checklist:</h3>
+                <ul>
+                    <li>Helmet</li>
+                    <li>Bike repair kit</li>
+                    <li>Gloves</li>
+                    <li>Reflective gear</li>
+                    <li>Extra water</li>
+                </ul>
+            `,
+            beachday: `
+                <h3>🏖️ Beach Day Checklist:</h3>
+                <ul>
+                    <li>Swimsuit</li>
+                    <li>Beach towel</li>
+                    <li>Umbrella</li>
+                    <li>Flip-flops</li>
+                    <li>Cooler with drinks</li>
+                </ul>
+            `,
+            camping: `
+                <h3>🏕️ Camping Checklist:</h3>
+                <ul>
+                    <li>Tent and stakes</li>
+                    <li>Sleeping bag</li>
+                    <li>Cooking gear</li>
+                    <li>Lantern/Flashlight</li>
+                    <li>Matches/lighter</li>
+                </ul>
+            `
+        };
+
+        const seasonExtras = {
+            summer: `
+                <h3>☀️ Summer Tips:</h3>
+                <ul>
+                    <li>Extra sunscreen</li>
+                    <li>Light breathable clothing</li>
+                    <li>Hydration tablets</li>
+                </ul>
+            `,
+            spring: `
+                <h3>🌼 Spring Tips:</h3>
+                <ul>
+                    <li>Allergy medication</li>
+                    <li>Rain jacket</li>
+                    <li>Layers for changing temps</li>
+                </ul>
+            `,
+            autumn: `
+                <h3>🍂 Autumn Tips:</h3>
+                <ul>
+                    <li>Warm jacket</li>
+                    <li>Flashlight (sun sets earlier)</li>
+                    <li>Bug spray (lingering bugs)</li>
+                </ul>
+            `,
+            winter: `
+                <h3>❄️ Winter Tips:</h3>
+                <ul>
+                    <li>Thermal gloves and socks</li>
+                    <li>Hand warmers</li>
+                    <li>Waterproof boots</li>
+                </ul>
+            `
+        };
+
+        return generalChecklist + vacationLists[vacation] + seasonExtras[season];
+    }
+</script>
+</html>
