@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 2rem;
+  }
+  
+  .levels-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .level-card {
+    display: flex;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    align-items: center;
+  }
+  
+  .level-image img {
+    width: 250px;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .level-text {
+    padding: 2rem;
+    flex: 1;
+  }
+  
+  .level-text h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
+  }
+  
+  .level-text p {
+    margin: 0 0 1rem 0;
+    color: #555;
+    size:5px;
+    font-size:20px;
+  }
+  
+  .level-text button {
+    background-color: #ffcc00;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .level-text button:hover {
+    background-color: #e6b800;
+  }
+  
