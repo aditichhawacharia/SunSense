@@ -7,7 +7,25 @@
     <link rel="stylesheet" href="quiz.css">
     <link rel="stylesheet" href="checklist.css">
     <link rel="stylesheet" href="../index.css">
+    <style>
+        /* Additional CSS for product images */
+        .product-image {
+            width: 120px;
+            height: 120px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -191,71 +209,136 @@
         function generateRecommendations() {
             const products = [
                 {
-                    name: "UltraShield SPF 50+",
-                    description: "Broad-spectrum protection with a lightweight formula suitable for sensitive skin",
+                    name: "EltaMD UV Clear Broad-Spectrum SPF 46",
+                    description: "Lightweight, calming formula with niacinamide. Great for acne-prone and sensitive skin.",
+                    spf: 46,
+                    type: "hybrid",
+                    waterproof: false,
+                    sensitive: true,
+                    tinted: false,
+                    activity: ["daily"],
+                    features: ["Oil-free", "Fragrance-free", "Non-comedogenic", "Broad-spectrum", "Reef-safe"],
+                    imageUrl: "https://m.media-amazon.com/images/I/61pg7GRP3GL._AC_UF1000,1000_QL80_.jpg"
+                },
+                {
+                    name: "Neutrogena Sport Face Oil-Free Lotion SPF 70+",
+                    description: "Sweat- and water-resistant sunscreen ideal for outdoor sports. Doesn't sting eyes.",
+                    spf: 70,
+                    type: "chemical",
+                    waterproof: true,
+                    sensitive: false,
+                    tinted: false,
+                    activity: ["sports", "beach", "hiking"],
+                    features: ["Oil-free", "Broad-spectrum", "Lightweight"],
+                    imageUrl: "https://m.media-amazon.com/images/I/91AEvqhj2wL._AC_UF1000,1000_QL80_DpWeblab_.jpg"
+                },
+                {
+                    name: "Blue Lizard Sensitive Mineral Sunscreen SPF 50+",
+                    description: "Mineral-based and reef-safe. Excellent for sensitive skin and ocean safety.",
+                    spf: 50,
+                    type: "mineral",
+                    waterproof: true,
+                    sensitive: true,
+                    tinted: false,
+                    activity: ["beach", "daily", "swimming"],
+                    features: ["Fragrance-free", "Broad-spectrum", "Reef-safe"],
+                    imageUrl: "https://bluelizardsunscreen.com/cdn/shop/files/Blue_Lizard_Sensitive_Lotion_5oz.webp?v=1736165748"
+                },
+                {
+                    name: "COOLA Classic Face Sunscreen SPF 50 (Fragrance-Free)",
+                    description: "Organic, antioxidant-rich formula perfect for long outdoor days and hiking.",
                     spf: 50,
                     type: "chemical",
                     waterproof: true,
-                    sensitive: true,
-                    activity: ["daily", "sports"],
-                    features: ["Oil-free", "Non-comedogenic", "Broad-spectrum"]
+                    sensitive: false,
+                    tinted: false,
+                    activity: ["hiking", "daily", "beach"],
+                    features: ["Fragrance-free", "Broad-spectrum", "Reef-safe", "Lightweight"],
+                    imageUrl: "https://coola.com/cdn/shop/files/2025_CL10020_PDP_4.jpg?v=1738864268&width=450"
                 },
                 {
-                    name: "NaturalBlock Mineral SPF 30",
-                    description: "Zinc oxide formula that provides gentle protection for sensitive and acne-prone skin",
+                    name: "Australian Gold Botanical Tinted Face Sunscreen SPF 50",
+                    description: "Tinted, matte-finish sunscreen great for acne-prone or oily skin.",
+                    spf: 50,
+                    type: "mineral",
+                    waterproof: true,
+                    sensitive: true,
+                    tinted: true,
+                    activity: ["daily", "beach"],
+                    features: ["Tinted", "Oil-free", "Broad-spectrum", "Reef-safe"],
+                    imageUrl: "https://m.media-amazon.com/images/I/61meCEw7a9L.jpg"
+                },
+                {
+                    name: "Supergoop! Unseen Sunscreen SPF 40",
+                    description: "Invisible, primer-like sunscreen that works perfectly under makeup.",
+                    spf: 40,
+                    type: "chemical",
+                    waterproof: true,
+                    sensitive: false,
+                    tinted: false,
+                    activity: ["daily"],
+                    features: ["Fragrance-free", "Broad-spectrum", "Reef-safe", "Invisible", "Lightweight"],
+                    imageUrl: "https://bluemercury.com/cdn/shop/files/global_images-p816218022976-7.jpg?v=1733949328&width=1500"
+                },
+                {
+                    name: "Aveeno Baby Continuous Protection Sensitive Skin SPF 50",
+                    description: "Gentle mineral SPF with oat extract. Ideal for eczema and young or sensitive skin.",
+                    spf: 50,
+                    type: "mineral",
+                    waterproof: true,
+                    sensitive: true,
+                    tinted: false,
+                    activity: ["daily", "beach"],
+                    features: ["Fragrance-free", "Pediatrician-recommended", "Broad-spectrum", "Reef-safe"],
+                    imageUrl: "https://i.ebayimg.com/images/g/IskAAOSwpgRi42Cu/s-l1200.jpg"
+                },
+                {
+                    name: "La Roche-Posay Anthelios Melt-in Milk SPF 60",
+                    description: "Fast-absorbing, high SPF protection with a smooth texture for sensitive skin.",
+                    spf: 60,
+                    type: "chemical",
+                    waterproof: true,
+                    sensitive: true,
+                    tinted: false,
+                    activity: ["daily", "beach", "hiking"],
+                    features: ["Fragrance-free", "Broad-spectrum", "Lightweight"],
+                    imageUrl: "https://i5.walmartimages.com/asr/cb45fc78-4d03-4403-8534-0f0b75d65f07.3566f3a3f727967c9e75db5b42f83656.png"
+                },
+                {
+                    name: "ThinkSport SPF 50+",
+                    description: "Top-rated water-resistant sunscreen with clean ingredients and reef-safe formula.",
+                    spf: 50,
+                    type: "mineral",
+                    waterproof: true,
+                    sensitive: true,
+                    tinted: false,
+                    activity: ["sports", "beach", "hiking", "swimming"],
+                    features: ["Broad-spectrum", "Reef-safe", "Non-toxic"],
+                    imageUrl: "https://www.perfectlynaturalsoap.com/cdn/shop/files/Thinksport-SPF-50-Clear-Zinc-Face-Sunscreen-2-oz-Facial-Care.webp?v=1743664500"
+                },
+                {
+                    name: "CeraVe Hydrating Mineral Sunscreen SPF 30",
+                    description: "Hydrating SPF with ceramides and niacinamide, ideal for dry and sensitive skin.",
                     spf: 30,
                     type: "mineral",
                     waterproof: false,
                     sensitive: true,
-                    reefSafe: true,
+                    tinted: false,
                     activity: ["daily"],
-                    features: ["Reef-safe", "Fragrance-free", "Broad-spectrum"]
+                    features: ["Fragrance-free", "Broad-spectrum", "Reef-safe", "Hydrating"],
+                    imageUrl: "https://content.syndigo.com/asset/8f6ac1d4-9ce1-4c78-90f7-2d68250b7db6/480.webp"
                 },
                 {
-                    name: "AquaDefense SPF 50",
-                    description: "Water-resistant formula that stays on during intense water activities",
+                    name: "Biore UV Aqua Rich Watery Essence SPF 50+",
+                    description: "Popular Japanese sunscreen with a watery, lightweight texture.",
                     spf: 50,
                     type: "chemical",
                     waterproof: true,
-                    activity: ["swimming", "beach"],
-                    features: ["80-min water resistance", "Sweat-resistant", "Broad-spectrum"]
-                },
-                {
-                    name: "SensitiveDerm SPF 40",
-                    description: "Specially formulated for eczema, rosacea, and extremely sensitive skin",
-                    spf: 40,
-                    type: "mineral",
-                    fragrance: false,
-                    sensitive: true,
-                    activity: ["daily"],
-                    features: ["Dermatologist-tested", "Fragrance-free", "Broad-spectrum"]
-                },
-                {
-                    name: "SportShield SPF 70",
-                    description: "High-protection formula that stays put during intense exercise",
-                    spf: 70,
-                    type: "chemical",
-                    waterproof: true,
-                    activity: ["sports", "hiking"],
-                    features: ["Sweat-resistant", "Non-stinging", "Broad-spectrum"]
-                },
-                {
-                    name: "EcoGuard Tinted SPF 30",
-                    description: "Reef-safe tinted mineral sunscreen with natural ingredients",
-                    spf: 30,
-                    type: "mineral",
-                    tinted: true,
-                    reefSafe: true,
-                    activity: ["beach", "daily"],
-                    features: ["Reef-safe", "Tinted", "Broad-spectrum"]
-                },
-                {
-                    name: "AlpineShield SPF 50+",
-                    description: "High-altitude protection with added antioxidants",
-                    spf: 50,
-                    type: "either",
-                    activity: ["hiking"],
-                    features: ["Antioxidant-rich", "Broad-spectrum", "Lightweight"]
+                    sensitive: false,
+                    tinted: false,
+                    activity: ["daily", "swimming"],
+                    features: ["Broad-spectrum", "Fast-absorbing", "Cooling effect", "Lightweight"],
+                    imageUrl: "https://www.kroger.com/product/images/large/top/0001910028686" 
                 }
             ];
 
@@ -268,15 +351,22 @@
             // Sort by best match
             matches = matches.map(product => {
                 let score = 0;
+                
+                // Skin concerns matching
                 if (userSelections.skinConcerns.includes('sensitive') && product.sensitive) score += 2;
                 if (userSelections.skinConcerns.includes('acne') && product.features.includes('Non-comedogenic')) score += 2;
+                if (userSelections.skinConcerns.includes('eczema') && product.sensitive) score += 2;
+                if (userSelections.skinConcerns.includes('rosacea') && product.sensitive) score += 2;
                 
-                if (userSelections.additional.includes('reef') && product.reefSafe) score += 1;
+                // Additional preferences matching
+                if (userSelections.additional.includes('reef') && product.features.includes('Reef-safe')) score += 1;
                 if (userSelections.additional.includes('fragrance') && product.features.includes('Fragrance-free')) score += 1;
                 if (userSelections.additional.includes('waterproof') && product.waterproof) score += 1;
+                if (userSelections.additional.includes('lightweight') && product.features.includes('Lightweight')) score += 1;
                 if (userSelections.additional.includes('tinted') && product.tinted) score += 1;
                 
-                if (userSelections.skinType === 'fair' && product.spf >= 50) score += 2;
+                // Skin type and activity SPF considerations
+                if ((userSelections.skinType === 'fair' || userSelections.skinType === 'light') && product.spf >= 50) score += 2;
                 if ((userSelections.activity === 'beach' || userSelections.activity === 'hiking') && product.spf >= 50) score += 2;
                 
                 return {
@@ -296,46 +386,87 @@
             const recommendationsContainer = document.getElementById('recommendations');
             recommendationsContainer.innerHTML = '';
             
-            recommendations.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                
-                productCard.innerHTML = `
-                    <div class="product-image">Product Image<br>Placeholder</div>
-                    <div class="product-details">
-                        <div class="product-name">${product.name} <span class="match-percent">${product.matchPercent}% Match</span></div>
-                        <div class="product-desc">${product.description}</div>
-                        <div class="product-features">
-                            ${product.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+            if (recommendations.length === 0) {
+                recommendationsContainer.innerHTML = '<p>Sorry, we couldn\'t find any matches for your criteria. Please try adjusting your preferences.</p>';
+                document.getElementById('explanation').textContent = 'No matches found for your current criteria.';
+            } else {
+                recommendations.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    
+                    productCard.innerHTML = `
+                        <div class="product-image"><img src="${product.imageUrl}" alt="${product.name}"></div>
+                        <div class="product-details">
+                            <div class="product-name">${product.name} <span class="match-percent">${product.matchPercent}% Match</span></div>
+                            <div class="product-desc">${product.description}</div>
+                            <div class="product-features">
+                                ${product.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                    
+                    recommendationsContainer.appendChild(productCard);
+                });
                 
-                recommendationsContainer.appendChild(productCard);
-            });
-            
-            let explanation = `Based on your ${userSelections.skinType} skin type and ${userSelections.activity} activities, `;
-            
-            if (userSelections.skinConcerns.includes('sensitive')) {
-                explanation += "we prioritized gentle formulas suitable for sensitive skin. ";
+                generateExplanation(recommendations);
             }
             
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+        }
+
+        function generateExplanation(recommendations) {
+            let explanation = `Based on your ${userSelections.skinType} skin type and ${userSelections.activity} activities, `;
+            
+            // Add skin concerns explanation
+            if (userSelections.skinConcerns.length > 0 && !userSelections.skinConcerns.includes('none')) {
+                if (userSelections.skinConcerns.length === 1) {
+                    explanation += `we prioritized formulas suitable for ${userSelections.skinConcerns[0]} skin. `;
+                } else {
+                    const lastConcern = userSelections.skinConcerns.pop();
+                    explanation += `we prioritized formulas suitable for ${userSelections.skinConcerns.join(', ')} and ${lastConcern} skin. `;
+                    // Put the last concern back in the array
+                    userSelections.skinConcerns.push(lastConcern);
+                }
+            }
+            
+            // Add sunscreen type preference explanation
             if (userSelections.preference !== 'either') {
                 explanation += `We focused on ${userSelections.preference} sunscreens as per your preference. `;
             }
             
+            // Add activity-specific explanation
             if (userSelections.activity === 'swimming' || userSelections.activity === 'sports') {
                 explanation += "We recommended water and sweat-resistant options that won't easily wash off. ";
+            } else if (userSelections.activity === 'beach') {
+                explanation += "We prioritized high SPF formulas with water-resistance for maximum protection during extended sun exposure. ";
+            } else if (userSelections.activity === 'hiking') {
+                explanation += "We selected formulas that offer strong protection at higher altitudes where UV radiation is more intense. ";
             }
             
+            // Add skin type specific explanation
             if (userSelections.skinType === 'fair' || userSelections.skinType === 'light') {
                 explanation += "Given your fair skin tone, we prioritized higher SPF options for better protection. ";
             }
             
-            document.getElementById('explanation').textContent = explanation;
+            // Add additional preferences explanation
+            const additionalPreferences = [];
+            if (userSelections.additional.includes('reef')) additionalPreferences.push("reef-safe formulas");
+            if (userSelections.additional.includes('fragrance')) additionalPreferences.push("fragrance-free options");
+            if (userSelections.additional.includes('waterproof')) additionalPreferences.push("water-resistant protection");
+            if (userSelections.additional.includes('lightweight')) additionalPreferences.push("lightweight feel");
+            if (userSelections.additional.includes('tinted')) additionalPreferences.push("tinted coverage");
             
-            document.getElementById('quiz').classList.add('hidden');
-            document.getElementById('results').classList.remove('hidden');
+            if (additionalPreferences.length > 0) {
+                if (additionalPreferences.length === 1) {
+                    explanation += `We also considered your preference for ${additionalPreferences[0]}.`;
+                } else {
+                    const lastPref = additionalPreferences.pop();
+                    explanation += `We also considered your preferences for ${additionalPreferences.join(', ')} and ${lastPref}.`;
+                }
+            }
+            
+            document.getElementById('explanation').textContent = explanation;
         }
 
         function resetQuiz() {
